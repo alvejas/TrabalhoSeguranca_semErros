@@ -18,6 +18,11 @@
       die("Connection failed: " . $conn->connect_error);
     }
 
+    if(!isset($_SESSION['login_user']))
+    {
+      header("Location: index.php");
+    }
+
 
     $sqlQuery="SELECT * FROM mensagens;";
 	

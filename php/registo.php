@@ -22,34 +22,26 @@ $error="";
 
 if($_SERVER["REQUEST_METHOD"] == "POST")
 {
-//existe uma verificaça dos parametros de entrada
+// username and password sent from form 
+
+//não há qualquer verificação dos dados de entrada
 $myusername=$_POST['username']; 
-$mypassword=md5($_POST['password']); 
+$mypassword=md5($_POST['password']);
 
-mysqli_report(MYSQLI_REPORT_ALL ^ MYSQLI_REPORT_INDEX);
 
-$stmt = $conn->prepare("SELECT * FROM utilizadores WHERE nome=? and password=?;");
-
-$stmt->bind_param('ss', $myusername, $mypassword);
-$stmt->execute();
-$rs= $stmt->fetch ();
-$stmt->close();
-if (!$rs) {
-	$conn->close(); 
-	$error="Your Login Name or Password is invalid";
+//esta propositadamente vulneravel a SQL injection
+$sqlQuery="INSERT INTO utilizadores (nome, password) VALUES ( '$myusername', '$mypassword');";
 	
+
+$result = $conn->query($sqlQuery);
+header("location: index.php");
+exit();
+	
+
+	
+
+
 }
-
-else  {
-	$conn->close(); 
-
-	$_SESSION['login_user']=$myusername;
-	header("location: welcome.php");
-}
-
-}
-
-
 
 ?>
 
@@ -62,7 +54,7 @@ else  {
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-<title>Página Inicial </title>
+<title>Página de Registo </title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 
@@ -81,7 +73,7 @@ $(document).ready(function() {
 </script>
 
 <body style="background-color:powderblue;">
-<h1><center>Página inicial </h1> 
+<h1><center>Página de Registo </h1> 
 <div id="auth" class="auth_div" style="align:center">
 	<form action="" method="post">
 		<label>UserName</label>
@@ -90,16 +82,9 @@ $(document).ready(function() {
 		<label>Password</label>
 		<input  id="password" type="password" name="password" class="form-control" /><br/><br />
 
-		<button type="submit" class="btn btn-primary" value=" Login " >Submit</button>
+		<button type="submit" class="btn btn-primary" value=" Login " >Registar</button>
 
 	</form>
-	<center><div style="font-size:11px; color:#cc0000; margin-top:10px"><?php echo $error; ?></div>
 </div>
-
-<form>
-
-		<input type="button" class="btn btn-primary" value=" Registar-se " onClick="window.location.href='registo.php'">
-
-</form>
 </body>
 </html>

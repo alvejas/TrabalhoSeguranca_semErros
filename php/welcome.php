@@ -56,9 +56,6 @@ exit();
     
 </div>
 
-<!--<a href="logout.php">
-    <img id="logout" src="WebSiteSeguranca/styles/logout.jpg"></img>
-</a>-->
 <form action="logout.php" >
     <button type="submit" class="btn btn-secondary" >Logout</button>
 </form>
