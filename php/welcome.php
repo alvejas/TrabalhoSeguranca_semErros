@@ -1,9 +1,9 @@
 <?php
 
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "bd";
+$servername = getenv('SERVER');
+$username = getenv('USERNAMEINSERT');
+$password = getenv('PASSWORDINSERT');
+$dbname = getenv('DB');
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -12,27 +12,52 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+error_reporting(E_RECOVERABLE_ERROR); // Sensitive
+  error_reporting(32); // Sensitive
+
+  ini_set('docref_root', '1'); // Sensitive
+  ini_set('display_errors', '1'); // Sensitive
+  ini_set('display_startup_errors', '1'); // Sensitive
+  ini_set('error_log', "path/to/logfile"); // Sensitive - check logfile is secure
+  ini_set('error_reporting', E_PARSE ); // Sensitive
+  ini_set('error_reporting', 64); // Sensitive
+  ini_set('log_errors', '0'); // Sensitive
+  ini_set('log_errors_max_length', '512'); // Sensitive
+  ini_set('ignore_repeated_errors', '1'); // Sensitive
+  ini_set('ignore_repeated_source', '1'); // Sensitive
+  ini_set('track_errors', '0'); // Sensitive
+
+  ini_alter('docref_root', '1'); // Sensitive
+  ini_alter('display_errors', '1'); // Sensitive
+  ini_alter('display_startup_errors', '1'); // Sensitive
+  ini_alter('error_log', "path/to/logfile"); // Sensitive - check logfile is secure
+  ini_alter('error_reporting', E_PARSE ); // Sensitive
+  ini_alter('error_reporting', 64); // Sensitive
+  ini_alter('log_errors', '0'); // Sensitive
+  ini_alter('log_errors_max_length', '512'); // Sensitive
+  ini_alter('ignore_repeated_errors', '1'); // Sensitive
+  ini_alter('ignore_repeated_source', '1'); // Sensitive
+  ini_alter('track_errors', '0'); // Sensitive
 session_start();
 
 
 if(!isset($_SESSION['login_user']))
 {
+session_destroy();
 header("Location: php/index.php");
 }
+
 
 
 if($_SERVER["REQUEST_METHOD"] == "POST")
 {
  
-$myusername=$_POST['msg'];
+$myMSG=$_POST['msg'];
 
-$sqlQuery="INSERT INTO mensagens (mensagens) values ('$myusername')";
+$sqlQuery="INSERT INTO mensagens (mensagens) values ('$myMSG')";
 	
 $result = $conn->query($sqlQuery);
-header("Location: mensagens.php?mensagem=$myusername");
+header("Location: mensagens.php?mensagem=$myMSG");
 exit();
 }
 
