@@ -1,3 +1,2 @@
-# Trabalho de segurança
-Na sequencia do projeto realizado anteriormente, este projeto contém as falhas identificadas no projeto anterior já resolvidas
-
+# Security work
+Following the project carried out previously, this project contains the flaws identified in the previous project that have already been resolved.
